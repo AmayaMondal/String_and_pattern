@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>String and Pattern</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        background: f4f4f4;
+      }
+      container {
+        max-width: 650px;
+        margin: auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+      }
+      input,
+      button {
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      button {
+        cursor: pointer;
+      }
+      #output {
+        margin-top: 20px;
+        padding: 15px;
+        background: #eeeeee;
+        white-space: pre;
+        overflow-x: auto;
+        font-family: monospace;
+        line-height: 1.2;
+      }
+      .pattern {
+        font-family: monospace;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>String and Pattern</h2>
+      <label for="userInput">Enter a string(3-10 alphabets):</label>
+      <br />
+      <input
+        type="text"
+        id="userInput"
+        placeholder="Enter a string"
+        maxlength="10"
+      />
+
+      <button onclick="processString()">Generate Output</button>
+      <h3>Output</h3>
+      <div id="output">Your result will appear here</div>
+    </div>
+    <script>
+      function processString() {
+        const input = document.getElementById("userInput").value.trim();
+        const output = document.getElementById("output");
+
+        if (!/^[a-zA-Z]{3,10}$/.test(input)) {
+          output.textContent =
+            "Invalid input!Enter only alphabets,length 3-10.";
+          return;
+        }
+        const upper = input.toUpperCase();
+
+        let vowels = 0;
+        let consonants = 0;
+
+        for (const ch of upper) {
+          if ("AEIOU".includes(ch)) {
+            vowels++;
+          } else {
+            consonants++;
+          }
+        }
+
+        let ladder = "";
+        const height = upper.length;
+
+        for (let i = 1; i <= height; i++) {
+          for (let j = height - i + 1; j <= height; j++) {
+            ladder += String.fromCharCode(64 + j);
+          }
+          ladder += "\n";
+        }
+
+        const size = vowels + 3;
+        let square = "";
+
+        for (let i = 0; i < size; i++) {
+          for (let j = 0; j < size; j++) {
+            if (i === 0 || i === size - 1 || j === 0 || j === size - 1) {
+              square += "*";
+            } else {
+              square += " ";
+            }
+          }
+          square += "\n";
+        }
+
+        if (vowels > consonants) {
+          dominance = "VOWEL DOMINANT";
+        } else {
+          dominance = "CONSONANT DOMINANT";
+        }
+        output.textContent =
+          "INPUT:" +
+          input +
+          "\n\nUPPERCASE:" +
+          upper +
+          "\n\nVOWEL COUNT:" +
+          vowels +
+          "\n\nCONSONANT COUNT:" +
+          consonants +
+          "\nSTRING LENGTH:" +
+          height +
+          "\n\nPATTERN 1-REVERSE ALPHABET LADDER:\n" +
+          ladder +
+          "\nSQUARE SIZE:" +
+          size +
+          "\n\nPATTERN 2-HOLLOW SQUARE:\n" +
+          square +
+          "\nRESULT:" +
+          dominance;
+      }
+    </script>
+  </body>
+</html>
